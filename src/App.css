@@ -1,0 +1,104 @@
+/* Estilos Gerais */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .app-container {
+    max-width: 1200px; /* Limita a largura máxima no desktop */
+    margin: 0 auto; /* Centraliza o container */
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  /* Estilos da Lista do Cardápio (Usando Flexbox) */
+  .cardapio-lista {
+    display: flex; /* Ativa o Flexbox */
+    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+    gap: 20px; /* Espaço entre os itens */
+    justify-content: center; /* Centraliza os itens horizontalmente */
+  }
+  
+  /* Estilos para Cada Item do Cardápio (MenuItem) */
+  .menu-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Garante que a imagem não "vaze" do card */
+    width: 300px; /* Largura fixa inicial (ajustaremos para responsivo) */
+    display: flex; /* Flexbox para organizar imagem e texto LADO A LADO */
+    flex-direction: column; /* Faz imagem e texto ficarem UM EM CIMA DO OUTRO */
+    transition: transform 0.2s ease-in-out; /* Efeito suave ao passar o mouse */
+  }
+  
+  .menu-item:hover {
+      transform: scale(1.03); /* Leve aumento ao passar o mouse */
+  }
+  
+  .menu-item-imagem {
+    width: 100%; /* Faz a imagem ocupar toda a largura do card */
+    height: 200px; /* Altura fixa para a imagem */
+    object-fit: cover; /* Cobre o espaço da imagem sem distorcer */
+  }
+  
+  .menu-item-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column; /* Organiza nome, descrição e preço verticalmente */
+    flex-grow: 1; /* Faz esta div ocupar o espaço restante se necessário */
+  }
+  
+  .menu-item-nome {
+    font-size: 1.2em;
+    color: #555;
+    margin: 0 0 10px 0; /* Tira margem de cima, adiciona embaixo */
+  }
+  
+  .menu-item-descricao {
+    font-size: 0.9em;
+    color: #777;
+    flex-grow: 1; /* Empurra o preço para baixo se a descrição for curta */
+    margin-bottom: 10px;
+  }
+  
+  .menu-item-preco {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #008000; /* Verde para o preço */
+    align-self: flex-end; /* Alinha o preço à direita (ou fim do eixo flex) */
+  }
+  
+  /* ---- RESPONSIVIDADE ---- */
+  
+  /* Telas Médias (Tablets) */
+  @media (max-width: 768px) {
+    .menu-item {
+      width: calc(50% - 10px); /* Ocupa quase metade da tela (considerando o gap) */
+    }
+     h1 {
+      font-size: 1.8em;
+     }
+  }
+  
+  /* Telas Pequenas (Celulares) */
+  @media (max-width: 480px) {
+    .menu-item {
+      width: 90%; /* Ocupa quase toda a largura da tela */
+    }
+     h1 {
+      font-size: 1.5em;
+     }
+     .menu-item-nome {
+       font-size: 1.1em;
+     }
+     .menu-item-preco {
+       font-size: 1em;
+     }
+  }
