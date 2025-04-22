@@ -1,104 +1,682 @@
-/* Estilos Gerais */
+/* ========================================= */
+/* ===== ESTILOS GERAIS E BASE (FIÉIS!) ==== */
+/* ========================================= */
 body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif; /* Voltando para Arial/sans-serif, fiel ao original */
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4; /* Fundo cinza claro do original */
+  color: #333; /* Cor de texto principal */
+  line-height: 1.6;
+  box-sizing: border-box; /* Inclui padding e borda no tamanho do elemento */
+}
+
+*, *::before, *::after {
+  box-sizing: inherit; /* Garante box-sizing em todos os elementos */
+}
+
+/* O app-container agora envolve APENAS o conteúdo principal (as seções do cardápio) */
+.app-container {
+  max-width: 1200px; /* Limita a largura do conteúdo principal */
+  margin: 0 auto; /* Centraliza o conteúdo principal */
+  padding: 0 20px; /* Padding nas laterais do conteúdo principal */
+}
+
+/* Se quiser importar uma fonte mais bonita mas simples, pode descomentar e usar no body */
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap'); */
+/* body { font-family: 'Open Sans', sans-serif; } */
+
+
+/* ========================================= */
+/* =========== ESTILOS DO CABEÇALHO ========== */
+/* ========================================= */
+header {
+  background-color: #333; /* Fundo cinza escuro/preto do original */
+  color: white; /* Texto branco do original */
+  padding: 15px 20px; /* Padding do original */
+  text-align: center;
+  /* Removido max-width e margin auto para ser full width */
+  position: relative; /* Necessário para posicionar o carrinho absoluto */
+  /* Removido box-shadow para ser mais fiel */
+  border-bottom: none; /* Sem borda */
+}
+
+/* Container para centralizar o conteúdo DENTRO do header */
+.header-content {
+  max-width: 1200px; /* Mesma largura do app-container */
+  margin: 0 auto; /* Centraliza */
+  padding: 0; /* Sem padding extra */
+  position: relative; /* Necessário se o carrinho estiver relativo a ele */
+}
+
+header h1 {
+  margin: 0;
+  color: white; /* Título branco do original */
+  font-size: 2em; /* Tamanho do original */
+  font-weight: bold; /* Manter negrito */
+  letter-spacing: normal; /* Sem espaçamento extra */
+}
+
+header img {
+  max-width: 100px; /* Tamanho do logo do original */
+  height: auto;
+  margin-top: 5px; /* Margem do original */
+  vertical-align: middle;
+  /* Talvez arredondar o logo? border-radius: 50%; overflow: hidden; */
+}
+
+
+/* ============================================= */
+/* >>> ESTILOS PARA O ÍCONE DO CARRINHO <<< */
+/* ============================================= */
+.cart-info {
+  /* Mantém a posição absoluta dentro do header */
+  position: absolute;
+  top: 50%; /* Centraliza verticalmente em relação ao header */
+  right: 20px; /* Distância da direita */
+  transform: translateY(-50%); /* Ajusta a centralização vertical */
+  background-color: white; /* Fundo branco */
+  padding: 8px 15px; /* Padding */
+  border-radius: 20px; /* Borda arredondada */
+  border: 1px solid #ccc; /* Borda cinza */
+  font-size: 1.1em; /* Tamanho */
+  color: #333;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10; /* Garante que fique acima de outros elementos no header */
+}
+
+.cart-info:hover {
+  transform: translateY(-50%) scale(1.05); /* Efeito subtle scale */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Se usar emoji (🛒) */
+.cart-info {
+  /* Pode ajustar o tamanho do emoji aqui se necessário */
+  /* font-size: 1.2em; */
+}
+
+/* Se usar imagem para o ícone */
+.cart-info img {
+   width: 25px;
+   height: auto;
+   margin-right: 8px;
+   vertical-align: middle;
+   /* Remova margens e paddings que possam vir de outros estilos de img */
+   margin-top: 0;
+   padding: 0;
+}
+
+
+.cart-info .cart-count {
+  background-color: #e74c3c; /* Cor de destaque (vermelho, combina com preço) */
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  font-weight: bold;
+  margin-left: 8px;
+  min-width: 20px;
+  text-align: center;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* ============================================= */
+/* >>> ESTILOS PARA O FILTRO DROPDOWN <<< */
+/* ============================================= */
+.filter-container {
+  background-color: #444; /* Fundo cinza escuro/preto do original da nav */
+  padding: 10px 20px; /* Padding similar ao original da nav */
+  text-align: center;
+  /* Removido max-width e margin auto para ser full width */
+  z-index: 10; /* Garante que fique acima das seções */
+  position: relative; /* Necessário para o dropdown absoluto */
+}
+
+.filter-dropdown {
+  position: relative;
+  display: inline-block; /* Para centralizar o dropdown dentro do container */
+  text-align: left; /* Alinha texto dentro do dropdown */
+  /* Removido margin auto 100% width */
+}
+
+.filter-button {
+  background-color: transparent; /* Fundo transparente */
+  color: white; /* Texto branco (similar aos links da nav original) */
+  padding: 8px 15px; /* Padding */
+  font-size: 1em; /* Tamanho da fonte */
+  border: none;
+  border-radius: 5px; /* Bordas suaves */
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-weight: normal; /* Normal, como os links originais */
+  box-shadow: none; /* Sem sombra */
+  text-transform: none; /* Texto normal, não uppercase */
+}
+
+.filter-button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Fundo transparente leve no hover */
+  color: white;
+  transform: none; /* Sem animação de lift */
+  box-shadow: none;
+}
+
+.filter-button:active {
+   transform: none;
+   box-shadow: none;
+   background-color: rgba(255, 255, 255, 0.2); /* Fundo um pouco mais forte no active */
+}
+
+
+.filter-button .arrow {
+   margin-left: 5px; /* Espaço */
+   transition: transform 0.3s ease;
+   display: inline-block;
+   font-size: 0.8em; /* Seta menor */
+}
+
+/* Gira a seta no hover do botão (mais preciso que no container) */
+.filter-button:hover .arrow {
+   transform: rotate(180deg);
+}
+
+.filter-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 0; /* Padding */
+  position: absolute;
+  top: calc(100% + 5px); /* Espaço abaixo do botão */
+  left: 0; /* Alinha a esquerda com o botão */
+  /* Removido transform translateX */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 101; /* Z-index alto */
+  min-width: 180px; /* Largura mínima */
+  text-align: left;
+
+  /* Esconde/mostra com display none/block para fidelidade */
+  display: none;
+  /* Transições de opacity/visibility removidas para simplificar */
+  /* pointer-events: none; */ /* Removido se usar display none */
+}
+
+/* Mostra a lista no hover do CONTAINER (para não sumir fácil) */
+.filter-dropdown:hover .filter-list {
+  display: block;
+  /* pointer-events: auto; */ /* Removido se usar display block */
+}
+
+.filter-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.filter-list .filter-option {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  text-align: left;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #555;
+}
+
+.filter-list .filter-option:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.filter-list .filter-option.active {
+  background-color: #eee;
+  font-weight: bold;
+  color: #e74c3c; /* Cor de destaque */
+}
+
+
+/* ========================================= */
+/* ========= ESTILOS DAS SEÇÕES ============ */
+/* ========================================= */
+section {
+  padding: 30px 0; /* Espaço vertical */
+  margin-bottom: 30px; /* Espaço entre seções */
+  /* Removido padding horizontal, pois o app-container já tem */
+  /* Removido border-top, box-shadow */
+}
+
+section h2 {
+  text-align: center;
+  font-size: 28px; /* Tamanho do original */
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 25px; /* Espaço */
+  position: relative;
+  padding-bottom: 0; /* Sem padding extra */
+}
+
+/* Remove a linha "Diva" que estava antes, para ser mais fiel */
+section h2::after {
+  display: none; /* Esconde a linha */
+}
+
+
+.menu-category {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os itens */
+  gap: 25px; /* Espaço do original */
+  padding: 0; /* Remove padding padrão */
+  /* Removido background, padding, border-radius */
+}
+
+
+/* ========================================= */
+/* ======= ESTILOS DOS ITENS (FIÉIS!) ====== */
+/* ========================================= */
+article.menu-item { /* O container principal de cada item (MenuItem) */
+  background-color: white;
+  border-radius: 8px; /* Borda do original */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave do original */
+  overflow: hidden;
+  /* >>> AJUSTE AQUI PARA O GRID <<< */
+  /* Usamos calc para ajustar a largura com base no gap e no número de itens por linha desejado */
+  /* Padrão para 4 itens por linha em telas largas (desktop) */
+  width: calc((100% - 3 * 25px) / 4); /* 4 itens por linha - (N-1)*gap / N */
+
+  display: flex; /* Ativa Flexbox para o alinhamento inferior */
+  flex-direction: column; /* Organiza em coluna */
+  justify-content: space-between; /* Distribui espaço verticalmente */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transição suave */
+  text-align: center; /* Centraliza texto */
+}
+
+article.menu-item:hover {
+  transform: translateY(-5px); /* Leve lift */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra um pouco mais visível no hover */
+}
+
+.menu-item-imagem {
+  width: 100%; /* Ocupa toda a largura do card */
+  height: 180px; /* Altura da imagem do original */
+  object-fit: cover; /* Cobre o espaço sem distorcer */
+  /* Removido border-radius na imagem */
+}
+
+.menu-item-info { /* Container das informações de texto */
+  padding: 15px; /* Padding do original */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Faz esta div crescer e empurrar o botão */
+  justify-content: flex-start; /* Alinha conteúdo no topo */
+  text-align: center;
+}
+
+.menu-item-nome {
+  font-size: 1.2em; /* Tamanho do original */
+  color: #333; /* Cor do original */
+  margin: 0 0 10px 0; /* Margem do original */
+  font-weight: bold; /* Negrito */
+}
+
+.menu-item-descricao {
+  font-size: 0.9em; /* Tamanho do original */
+  color: #666; /* Cor do original */
+  margin: 0 0 10px 0; /* Margem do original */
+  flex-grow: 1; /* Faz a descrição ocupar o espaço extra */
+  line-height: 1.4; /* Espaçamento de linha */
+}
+
+.menu-item-preco.preco { /* Estilo do preço (combinando as classes) */
+  font-size: 1.1em; /* Tamanho do original */
+  font-weight: bold;
+  color: #e74c3c; /* COR VERMELHA DO ORIGINAL! */
+  margin: auto 0 0 0; /* Empurra para baixo dentro da info */
+  text-align: center;
+}
+
+
+/* =============================================== */
+/* >>> ESTILOS PARA O BOTÃO ADD TO CART (CINZA!) <<< */
+/* =============================================== */
+.add-to-cart-btn {
+  display: block;
+  width: calc(100% - 30px); /* Considera padding do item */
+  margin: 0 auto 15px auto; /* 0px em cima, auto dos lados (centraliza), 15px embaixo */
+  padding: 10px 15px; /* Padding */
+  background-color: #bdc3c7; /* Cor cinza suave pedida */
+  color: #333; /* Cor do texto escuro */
+  font-size: 1em;
+  border: none;
+  border-radius: 5px; /* Bordas suaves */
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease; /* Transição suave */
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra sutil */
+}
+
+.add-to-cart-btn:hover {
+  background-color: #95a5a6; /* Cinza mais escuro no hover */
+  transform: translateY(-2px); /* Leve lift */
+}
+
+.add-to-cart-btn:active {
+  background-color: #7f8c8d; /* Cinza ainda mais escuro no clique */
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+/* =============================================== */
+/* >>> ESTILOS PARA OS DETALHOS DO CARRINHO (MODAL) <<< */
+/* =============================================== */
+/* Mantém os estilos de modal para um pop-up funcional, ajustando cores */
+
+.cart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.cart-details {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px; /* Bordas suaves */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra */
+  max-width: 400px; /* Largura do modal */
+  width: 90%;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  transform: translateY(20px);
+  animation: slideUp 0.3s forwards;
+}
+
+@keyframes slideUp {
+  to { transform: translateY(0); }
+}
+
+
+.cart-details h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 1.8em;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.close-cart-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.2s ease;
+}
+
+.close-cart-btn:hover {
+  color: #333;
+}
+
+.cart-items-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #ddd;
+  font-size: 1em;
+  color: #555;
+}
+
+.cart-item span:first-child {
+  font-weight: normal; /* Nome normal */
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.cart-item span:last-child {
+  white-space: nowrap;
+  color: #008000; /* Cor do preço */
+  font-weight: bold;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  font-size: 1.2em;
+  border-top: 1px solid #ddd; /* Linha sólida suave */
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-total span {
+   color: #008000; /* Cor do valor total */
+}
+
+/* Estilo para "Seu carrinho está vazio" */
+.cart-details p {
+  text-align: center;
+  color: #777;
+  font-size: 1.1em;
+}
+
+
+/* ========================================= */
+/* ======= ESTILOS DO RODAPÉ (FIÉIS!) ====== */
+/* ========================================= */
+footer {
+  background-color: #333; /* Fundo cinza escuro/preto do original */
+  color: white; /* Texto branco do original */
+  text-align: center;
+  padding: 20px; /* Padding do original */
+  margin-top: 30px; /* Margem do original */
+  font-size: 0.9em;
+  /* Removido max-width e margin auto para ser full width */
+}
+
+footer p {
+  margin: 0;
+  color: white; /* Texto branco do original */
+}
+
+
+/* ========================================= */
+/* ======= ESTILOS DE RESPONSIVIDADE ======= */
+/* ========================================= */
+
+/* Telas Médias (Tablets) */
+@media (max-width: 1199px) { /* Ajuste o breakpoint para 3 itens antes */
+   .app-container {
+      padding: 0 15px;
   }
-  
-  .app-container {
-    max-width: 1200px; /* Limita a largura máxima no desktop */
-    margin: 0 auto; /* Centraliza o container */
-    padding: 20px;
+
+   /* >>> AJUSTE AQUI PARA 3 ITENS POR LINHA <<< */
+  article.menu-item {
+      width: calc((100% - 2 * 25px) / 3); /* 3 itens por linha */
   }
-  
-  h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+
+  header { padding: 15px; }
+  .header-content { padding: 0 15px; } /* Padding interno para o conteúdo centralizado */
+  header h1 { font-size: 1.8em; }
+  header img { max-width: 80px; }
+
+  .cart-info { top: 15px; right: 15px; padding: 6px 12px; font-size: 1em; }
+  .cart-info .cart-count { padding: 2px 5px; font-size: 0.7em; min-width: 18px; }
+
+  .filter-container { padding: 8px 15px; }
+  .filter-button { padding: 6px 12px; font-size: 0.9em; }
+  .filter-list { min-width: 160px; top: calc(100% + 4px); }
+  .filter-list .filter-option { padding: 8px 12px; font-size: 0.9em; }
+
+
+  section { padding: 20px 0; margin-bottom: 20px;}
+  section h2 { font-size: 26px; margin-bottom: 20px;}
+
+
+  .menu-category { gap: 20px; } /* Ajusta gap para 3 itens */
+  article.menu-item { border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  article.menu-item:hover { transform: translateY(-3px); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+  article.menu-item img { height: 160px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
+  article.menu-item-info { padding: 12px; }
+  .menu-item-nome { font-size: 1.1em; margin-bottom: 8px; }
+  .menu-item-descricao { font-size: 0.85em; margin-bottom: 8px;}
+  .menu-item-preco.preco { font-size: 1em; }
+  .add-to-cart-btn { width: calc(100% - 24px); margin: 0 auto 12px auto; padding: 8px; font-size: 0.9em; border-radius: 4px; }
+
+
+  .cart-details { padding: 25px; max-width: 90%; border-radius: 6px; }
+  .cart-details h3 { font-size: 1.6em; margin-bottom: 18px; }
+  .close-cart-btn { top: 8px; right: 8px; width: 28px; height: 28px; font-size: 1.3em; }
+  .cart-item { font-size: 0.95em; padding: 8px 0; }
+  .cart-total { font-size: 1.1em; padding-top: 12px; }
+
+  footer { padding: 15px; margin-top: 20px; font-size: 0.8em; }
+}
+
+/* Telas Pequenas (Celulares) */
+@media (max-width: 767px) { /* Ajuste o breakpoint para 2 itens antes */
+   .app-container {
+      padding: 0 10px;
   }
-  
-  /* Estilos da Lista do Cardápio (Usando Flexbox) */
-  .cardapio-lista {
-    display: flex; /* Ativa o Flexbox */
-    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
-    gap: 20px; /* Espaço entre os itens */
-    justify-content: center; /* Centraliza os itens horizontalmente */
+
+   /* >>> AJUSTE AQUI PARA 2 ITENS POR LINHA <<< */
+  article.menu-item {
+      width: calc((100% - 1 * 20px) / 2); /* 2 itens por linha */
+       gap: 15px; /* Ajusta gap para 2 itens */
   }
-  
-  /* Estilos para Cada Item do Cardápio (MenuItem) */
-  .menu-item {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Garante que a imagem não "vaze" do card */
-    width: 300px; /* Largura fixa inicial (ajustaremos para responsivo) */
-    display: flex; /* Flexbox para organizar imagem e texto LADO A LADO */
-    flex-direction: column; /* Faz imagem e texto ficarem UM EM CIMA DO OUTRO */
-    transition: transform 0.2s ease-in-out; /* Efeito suave ao passar o mouse */
+   .menu-category { gap: 20px; }
+
+
+  header { padding: 10px; }
+   .header-content { padding: 0 10px; }
+  header h1 { font-size: 1.6em; margin-bottom: 5px;}
+  header img { max-width: 70px; margin-top: 5px;}
+
+  .cart-info { top: 10px; right: 10px; padding: 5px 10px; font-size: 0.9em; }
+  .cart-info .cart-count { padding: 1px 4px; font-size: 0.6em; min-width: 16px; }
+
+  .filter-container { padding: 6px 10px; }
+  .filter-button { padding: 5px 10px; font-size: 0.8em; }
+  .filter-list { min-width: 140px; top: calc(100% + 3px); }
+  .filter-list .filter-option { padding: 8px 10px; font-size: 0.8em; }
+
+
+  section { padding: 15px 0; margin-bottom: 15px;}
+  section h2 { font-size: 22px; margin-bottom: 15px;}
+
+
+  /* .menu-category { gap: 15px; } */ /* Movido gap para article.menu-item */
+  article.menu-item { border-radius: 6px; box-shadow: 0 2px 3px rgba(0,0,0,0.1); } /* 1 item por linha */
+   article.menu-item img { height: 150px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
+  article.menu-item-info { padding: 10px; }
+  .menu-item-nome { font-size: 1.1em; margin-bottom: 4px;}
+  .menu-item-descricao { font-size: 0.8em; margin-bottom: 6px;}
+  .menu-item-preco.preco { font-size: 1em; }
+  .add-to-cart-btn { width: calc(100% - 20px); margin: 0 auto 10px auto; padding: 6px; font-size: 0.85em; border-radius: 4px; }
+
+
+  .cart-details { padding: 20px; width: 95%; max-height: 90vh; border-radius: 6px; }
+   .cart-details h3 { font-size: 1.4em; margin-bottom: 15px; }
+   .close-cart-btn { top: 8px; right: 8px; width: 25px; height: 25px; font-size: 1.2em; }
+   .cart-item { font-size: 0.85em; padding: 6px 0; }
+   .cart-total { font-size: 1em; padding-top: 10px;}
+
+
+  footer { padding: 15px 10px; margin-top: 20px; font-size: 0.75em; }
+}
+
+/* Telas muito pequenas (Celulares) */
+@media (max-width: 479px) { /* Ajuste o breakpoint para 1 item */
+   .app-container {
+      padding: 0 10px; /* Padding */
   }
-  
-  .menu-item:hover {
-      transform: scale(1.03); /* Leve aumento ao passar o mouse */
+   /* >>> AJUSTE AQUI PARA 1 ITEM POR LINHA <<< */
+  article.menu-item {
+      width: calc(100% - 20px); /* 1 item por linha - considera 10px padding em cada lado do app-container */
+      margin: 0 auto; /* Centraliza se a largura não for 100% */
   }
-  
-  .menu-item-imagem {
-    width: 100%; /* Faz a imagem ocupar toda a largura do card */
-    height: 200px; /* Altura fixa para a imagem */
-    object-fit: cover; /* Cobre o espaço da imagem sem distorcer */
-  }
-  
-  .menu-item-info {
-    padding: 15px;
-    display: flex;
-    flex-direction: column; /* Organiza nome, descrição e preço verticalmente */
-    flex-grow: 1; /* Faz esta div ocupar o espaço restante se necessário */
-  }
-  
-  .menu-item-nome {
-    font-size: 1.2em;
-    color: #555;
-    margin: 0 0 10px 0; /* Tira margem de cima, adiciona embaixo */
-  }
-  
-  .menu-item-descricao {
-    font-size: 0.9em;
-    color: #777;
-    flex-grow: 1; /* Empurra o preço para baixo se a descrição for curta */
-    margin-bottom: 10px;
-  }
-  
-  .menu-item-preco {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #008000; /* Verde para o preço */
-    align-self: flex-end; /* Alinha o preço à direita (ou fim do eixo flex) */
-  }
-  
-  /* ---- RESPONSIVIDADE ---- */
-  
-  /* Telas Médias (Tablets) */
-  @media (max-width: 768px) {
-    .menu-item {
-      width: calc(50% - 10px); /* Ocupa quase metade da tela (considerando o gap) */
-    }
-     h1 {
-      font-size: 1.8em;
-     }
-  }
-  
-  /* Telas Pequenas (Celulares) */
-  @media (max-width: 480px) {
-    .menu-item {
-      width: 90%; /* Ocupa quase toda a largura da tela */
-    }
-     h1 {
-      font-size: 1.5em;
-     }
-     .menu-item-nome {
-       font-size: 1.1em;
-     }
-     .menu-item-preco {
-       font-size: 1em;
-     }
-  }
+  /* Ajusta gap entre os itens quando estão em uma única coluna */
+   .menu-category { gap: 15px; }
+
+
+   header { padding: 10px; }
+    .header-content { padding: 0 10px; }
+   header h1 { font-size: 1.6em; margin-bottom: 5px;}
+   header img { max-width: 70px; margin-top: 5px;}
+
+   .cart-info { top: 8px; right: 8px; padding: 5px 10px; font-size: 0.9em; }
+   .cart-info .cart-count { padding: 1px 4px; font-size: 0.6em; min-width: 16px; }
+
+   .filter-container { padding: 6px 10px; }
+   .filter-button { padding: 5px 10px; font-size: 0.8em; }
+   .filter-list { min-width: 140px; top: calc(100% + 3px); }
+   .filter-list .filter-option { padding: 8px 10px; font-size: 0.8em; }
+
+
+   section { padding: 15px 0; margin-bottom: 15px;}
+   section h2 { font-size: 22px; margin-bottom: 15px;}
+
+
+   article.menu-item { border-radius: 6px; box-shadow: 0 2px 3px rgba(0,0,0,0.1); }
+    article.menu-item img { height: 150px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
+   article.menu-item-info { padding: 10px; }
+   .menu-item-nome { font-size: 1.1em; margin-bottom: 4px;}
+   .menu-item-descricao { font-size: 0.8em; margin-bottom: 6px;}
+   .menu-item-preco.preco { font-size: 1em; }
+   .add-to-cart-btn { width: calc(100% - 20px); margin: 0 auto 10px auto; padding: 6px; font-size: 0.85em; border-radius: 4px; }
+
+
+   .cart-details { padding: 20px; width: 95%; max-height: 90vh; border-radius: 6px; }
+    .cart-details h3 { font-size: 1.4em; margin-bottom: 15px; }
+    .close-cart-btn { top: 8px; right: 8px; width: 25px; height: 25px; font-size: 1.2em; }
+    .cart-item { font-size: 0.85em; padding: 6px 0; }
+    .cart-total { font-size: 1em; padding-top: 10px;}
+
+
+   footer { padding: 15px 10px; margin-top: 20px; font-size: 0.75em; }
+}
+
+
+/* ========================================= */
+/* ======= ESTILOS DE ACESSIBILIDADE ======= */
+/* ========================================= */
+button:focus, a:focus {
+  outline: 2px solid #e74c3c; /* Contorno com cor de destaque */
+  outline-offset: 3px; /* Espaço entre o elemento e o contorno */
+  border-radius: 3px; /* Borda sutil para elementos com borda */
+}
