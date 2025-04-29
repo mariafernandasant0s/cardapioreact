@@ -9,6 +9,7 @@ const categoryTitles = {
   entradas: 'Entradas',
   'pratos-principais': 'Pratos Principais',
   sobremesas: 'Sobremesas',
+  bebidas: 'Bebidas', // Exemplo: se tiver mais categorias
   // Adicione outras categorias aqui se tiver no data.js
 };
 
@@ -16,11 +17,15 @@ function App() {
   // >>> ESTADO PARA O FILTRO <<<
   // selectedCategory guarda a chave da categoria selecionada (ou 'all')
   const [selectedCategory, setSelectedCategory] = useState('all'); // Começa mostrando 'all'
+  // Estado para controlar se a lista de filtro está visível (para fechar ao clicar fora)
+  const [isFilterListVisible, setIsFilterListVisible] = useState(false);
+
 
   // >>> ESTADO PARA O CARRINHO <<<
   // cart guarda um array dos itens que foram adicionados
   const [cart, setCart] = useState([]); // Carrinho começa vazio
-  // >>> ESTADO PARA MOSTRAR/ESCONDER OS DETALHES DO CARRINHO <<<
+  // TODO: Implementar agrupamento de itens no carrinho e quantidade
+  // >>> ESTADO PARA MOSTRAR/ESCONDER OS DETALHOS DO CARRINHO <<<
   const [showCartDetails, setShowCartDetails] = useState(false); // Começa escondido
 
   // Pega as chaves das categorias do objeto de dados, incluindo 'all' para o filtro dropdown
@@ -28,11 +33,10 @@ function App() {
 
   // >>> FUNÇÃO PARA ADICIONAR ITENS AO CARRINHO <<<
   const addToCart = (itemToAdd) => {
-    // TODO: Implementar lógica para verificar se o item já está no carrinho e talvez aumentar a quantidade
-    // Por enquanto, apenas adiciona o item ao final do array
+    // TODO: Melhorar lógica para agrupar itens
     setCart([...cart, itemToAdd]);
-    console.log('Item adicionado ao carrinho:', itemToAdd.nome); // Mensagem no console (opcional)
-    // Opcional: Mostrar uma confirmação visual rápida (ex: "Item adicionado!")
+    console.log('Item adicionado ao carrinho:', itemToAdd.nome);
+    // Opcional: Mostrar uma confirmação visual rápida
   };
 
    // >>> FUNÇÃO PARA REMOVER ITENS DO CARRINHO (BÁSICO) <<<
@@ -44,11 +48,26 @@ function App() {
    };
    // TODO: Implementar lógica para remover apenas UMA unidade se houver várias do mesmo item
 
-  // >>> FUNÇÃO PARA LIDAR COM O CLIQUE NO FILTRO <<<
-  const handleFilterClick = (categoryId) => {
-    setSelectedCategory(categoryId); // Atualiza o estado da categoria selecionada
-    // TODO: Implementar lógica para fechar o dropdown depois de clicar
+  // >>> FUNÇÃO PARA LIDAR COM O CLIQUE NO FILTRO (Botão principal) <<<
+  const handleFilterButtonClick = () => {
+      setIsFilterListVisible(!isFilterListVisible); // Alterna a visibilidade da lista
   };
+
+  // >>> FUNÇÃO PARA LIDAR COM O CLIQUE EM UMA OPÇÃO DO FILTRO <<<
+  const handleFilterOptionClick = (categoryId) => {
+    setSelectedCategory(categoryId); // Atualiza o estado da categoria selecionada
+    setIsFilterListVisible(false); // Esconde a lista depois de selecionar
+  };
+
+    // Função para fechar o filtro se clicar fora da lista ou no botão
+    const handleCloseFilter = (e) => {
+        // Verifica se o clique foi fora do container do dropdown
+        // Usamos .closest para ver se o clique *não* foi dentro do .filter-dropdown
+        if (isFilterListVisible && !e.target.closest('.filter-dropdown')) {
+            setIsFilterListVisible(false);
+        }
+         // Se o clique foi no botão do filtro, a função handleFilterButtonClick já cuidou de alternar
+    };
 
    // >>> FUNÇÃO PARA LIDAR COM O CLIQUE NO ÍCONE DO CARRINHO <<<
    const handleCartIconClick = () => {
@@ -57,102 +76,100 @@ function App() {
 
    // >>> FUNÇÃO PARA CALCULAR O TOTAL DO CARRINHO <<<
    const calculateCartTotal = () => {
-       return cart.reduce((total, item) => total + item.preco, 0); // Soma os preços de todos os itens no array 'cart'
+       // Certifica que o preco é um número antes de somar
+       return cart.reduce((total, item) => total + (parseFloat(item.preco) || 0), 0);
    };
-   const cartTotal = calculateCartTotal(); // Calcula o total sempre que o componente renderiza (o estado 'cart' muda)
+   const cartTotal = calculateCartTotal();
 
 
   return (
-    // Remove o app-container principal aqui para que header e footer fiquem full width
-    <> {/* Usamos um Fragmento <> </> porque queremos múltiplos elementos no nível raiz (header, filtro, sections, footer) */}
+    // Adiciona um event listener no container principal para fechar o filtro ao clicar fora
+    // Capture phase (true) ajuda a garantir que ele roda antes dos eventos internos se propagarem
+    <div className="app" onClickCapture={handleCloseFilter}> {/* Container principal adicionado */}
 
       {/* >>> CABEÇALHO - Com Logo e Carrinho <<< */}
-      {/* O cabeçalho agora vai ocupar a largura total */}
       <header role="banner">
           <div className="header-content"> {/* Container para centralizar o conteúdo do header */}
-              <h1>Restaurante XPTO</h1>
-              {/* Logo - Verifique se a imagem está em public/images e o caminho correto */}
-              <img src="/images/logo.png" alt="Logo do Restaurante XPTO" width="150"/>
 
-              {/* >>> ÍCONE E CONTAGEM DO CARRINHO <<< */}
-              {/* Adicione estilos para a classe 'cart-info' no seu App.css! */}
-              <div className="cart-info" onClick={handleCartIconClick}> {/* Adicionado onClick */}
-                  {/* Ícone de carrinho (pode ser um emoji 🛒 ou uma imagem <img src="/images/cart.png" alt="Carrinho"/> ) */}
-                  🛒 {/* Usando emoji por enquanto - estilize no CSS! */}
-                   {/* Contagem de itens no carrinho */}
-                  {/* Adicione estilos para a classe 'cart-count' no seu App.css! */}
-                  {cart.length > 0 && <span className="cart-count">{cart.length}</span>} {/* Mostra a contagem apenas se for maior que 0 */}
+              {/* Container para agrupar Logo e Título */}
+              <div className="header-brand">
+                  {/* Logo - Certifique-se de ter a imagem em public/images/logo.png */}
+                  <img src="/images/logo.png" alt="Logo do Restaurante XPTO" width="100"/>
+                  <h1>Restaurante XPTO</h1>
               </div>
-           </div> {/* Fim do header-content */}
+
+              {/* ÍCONE E CONTAGEM DO CARRINHO */}
+              <div className="cart-info" onClick={handleCartIconClick}>
+                  🛒 {/* Ícone de carrinho - estilize no CSS! */}
+                  {/* Mostra a contagem apenas se o carrinho não estiver vazio */}
+                  {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
+              </div>
+           </div>
       </header>
 
-      {/* >>> FILTRO DROPDOWN - NOVO ELEMENTO <<< */}
-      {/* Este container também pode ocupar a largura total se estilizado */}
-      <div className="filter-container"> {/* Novo container para o filtro */}
-          <div className="filter-dropdown"> {/* Container principal do dropdown - pode ser centralizado dentro de filter-container */}
-              <button className="filter-button"> {/* Botão que aciona o dropdown */}
-                  Filtro <span className="arrow">▼</span> {/* Símbolo de seta para baixo, estilize a classe arrow! */}
+      {/* >>> FILTRO DROPDOWN <<< */}
+      <div className="filter-container">
+          <div className="filter-dropdown" role="navigation">
+              <button
+                  className="filter-button"
+                  onClick={handleFilterButtonClick}
+                  aria-haspopup="true"
+                  aria-expanded={isFilterListVisible}
+              >
+                  Filtro <span className="arrow">▼</span>
               </button>
-              {/* Lista de opções do filtro - ESTILIZE PARA APARECER NO HOVER/CLICK DO .filter-dropdown! */}
-              <ul className="filter-list">
-                  {/* Mapeia as categorias para criar os itens do dropdown */}
+              {/* Lista de opções do filtro - Visibilidade controlada pelo estado 'isFilterListVisible' */}
+              <ul
+                  className={isFilterListVisible ? 'filter-list visible' : 'filter-list'}
+                  role="menu"
+              >
                   {categoriasParaFiltro.map(categoryId => (
-                      <li key={categoryId}>
+                      <li key={categoryId} role="none">
                           <button
-                              // Adiciona uma classe 'active' se esta for a categoria selecionada atualmente
                               className={selectedCategory === categoryId ? 'filter-option active' : 'filter-option'}
-                              onClick={() => handleFilterClick(categoryId)} // Chama a função ao clicar
+                              onClick={() => handleFilterOptionClick(categoryId)}
+                              role="menuitem"
                           >
-                              {categoryTitles[categoryId]} {/* Ex: Todas as Categorias, Entradas, etc. */}
+                              {categoryTitles[categoryId]}
                           </button>
                       </li>
                   ))}
               </ul>
-          </div> {/* Fim do filter-dropdown */}
-      </div> {/* Fim do filter-container */}
+          </div>
+      </div>
 
 
       {/* >>> CONTEÚDO PRINCIPAL DO CARDÁPIO - CENTRALIZADO <<< */}
-       <div className="app-container"> {/* O container centralizado para as seções */}
+       <div className="app-container">
 
           {/* >>> SEÇÕES DO CARDÁPIO - RENDERIZAÇÃO CONDICIONAL <<< */}
-          {/* Mapeia as chaves das categorias (entradas, pratos-principais, sobremesas) */}
-          {/* Object.keys(cardapioCategorizado) retorna ['entradas', 'pratos-principais', 'sobremesas'] */}
           {Object.keys(cardapioCategorizado).map(categoryId => {
-              // Decide se esta seção deve ser exibida:
-              // 1. Se selectedCategory é 'all' (mostra tudo)
-              // OU
-              // 2. Se selectedCategory é igual ao categoryId desta seção
               const isSectionVisible = selectedCategory === 'all' || selectedCategory === categoryId;
 
-              // Renderiza a seção SOMENTE se ela for visível
               if (!isSectionVisible) {
-                  return null; // Se não for visível, não renderiza nada para esta seção/categoria
+                  return null;
               }
 
-              // Se a seção é visível, renderiza a estrutura completa da seção
               return (
                   <section
-                      key={categoryId} // key para a seção
-                      id={categoryId} // ID para links (se necessário, embora o filtro substitua a navegação principal)
-                      aria-labelledby={`${categoryId}-heading`} // Para acessibilidade
+                      key={categoryId}
+                      id={categoryId}
+                      aria-labelledby={`${categoryId}-heading`}
                   >
-                      {/* Título da Seção (Ex: Entradas) */}
                       <h2 id={`${categoryId}-heading`}>{categoryTitles[categoryId]}</h2>
 
-                      {/* Container para os itens DENTRO desta categoria - Usa a classe do seu CSS HTML */}
                       <div className="menu-category">
-                          {/* Mapeia os ITENS dentro desta categoria específica e renderiza MenuItem */}
                           {cardapioCategorizado[categoryId].map(item => (
                             <MenuItem
-                              key={item.id} // Chave única para CADA item
+                              key={item.id}
+                              id={item.id}
                               nome={item.nome}
                               descricao={item.descricao}
-                              preco={item.preco}
+                              // CORREÇÃO: Passa o preco como NÚMERO para o componente MenuItem
+                              preco={parseFloat(item.preco)} // <--- CORRIGIDO!
                               imagemUrl={item.imagemUrl}
-                              // >>> PASSA A FUNÇÃO addToCart para o MenuItem <<<
-                              // Quando o botão no MenuItem for clicado, ele vai chamar essa função
-                              onAddToCart={() => addToCart(item)} // Passa o item atual para a função
+                              // Passa o item (com preço como número) para a função addToCart
+                              onAddToCart={() => addToCart({...item, preco: parseFloat(item.preco)})}
                             />
                           ))}
                       </div>
@@ -164,34 +181,32 @@ function App() {
 
 
        {/* >>> RODAPÉ <<< */}
-       {/* O rodapé também vai ocupar a largura total */}
        <footer role="contentinfo">
          <p>© Restaurante - Todos os direitos reservados.</p>
        </footer>
 
-       {/* >>> DETALHES DO CARRINHO (Modal/Sidebar) <<< */}
+       {/* >>> DETALHOS DO CARRINHO (Modal/Sidebar) <<< */}
        {/* Renderiza este bloco SOMENTE se showCartDetails for true */}
-       {/* Adicione estilos para as classes 'cart-details', 'cart-overlay', etc. no App.css! */}
        {showCartDetails && (
-           // Este overlay escurece o fundo
            <div className="cart-overlay" onClick={handleCartIconClick}> {/* Clicar no overlay fecha o carrinho */}
-               <div className="cart-details" onClick={e => e.stopPropagation()}> {/* Impede que o clique dentro feche o carrinho */}
+               {/* Impede que o clique dentro do modal feche o carrinho */}
+               <div className="cart-details" onClick={e => e.stopPropagation()}>
                    <h3>Seu Carrinho</h3>
-                   <button className="close-cart-btn" onClick={handleCartIconClick}>X</button> {/* Botão para fechar */}
+                   <button className="close-cart-btn" onClick={handleCartIconClick} aria-label="Fechar carrinho">X</button>
 
                    {cart.length === 0 ? (
                        <p>Seu carrinho está vazio.</p>
                    ) : (
                        <> {/* Usa fragmento para agrupar a lista e o total */}
                            <ul className="cart-items-list">
-                               {/* TODO: Agrupar itens iguais e mostrar quantidade */}
-                               {/* Para simplificar, key usando index é temporário. O ideal é key única por item no carrinho, considerando múltiplos. */}
-                               {cart.map((item, index) => (
+                               {/* TODO: Agrupar itens iguais e mostrar quantidade e botão de remover */}
+                               {/* Usando item.id como key, mas para múltiplos do mesmo item, precisaria de uma key mais robusta ou agrupar primeiro */}
+                               {cart.map((item, index) => ( // Usando index temporariamente se item.id não for suficiente para chaves únicas no carrinho
                                    <li key={index} className="cart-item">
                                        <span>{item.nome}</span>
-                                       <span>R$ {item.preco.toFixed(2)}</span>
-                                       {/* TODO: Adicionar botão para remover item */}
-                                        {/* <button onClick={() => removeFromCart(item.id)}>Remover</button> */}
+                                       {/* Formata o preço para string no carrinho */}
+                                       <span>R$ {parseFloat(item.preco).toFixed(2)}</span>
+                                        {/* TODO: Adicionar botão para remover este item */}
                                    </li>
                                ))}
                            </ul>
@@ -205,7 +220,7 @@ function App() {
            </div>
        )}
 
-    </> // Fim do Fragmento raiz
+    </div> 
   );
 }
 

@@ -1,217 +1,271 @@
 /* ========================================= */
-/* ===== ESTILOS GERAIS E BASE (FIÉIS!) ==== */
+/* ===== FONTES E VARIÁVEIS (PREMIUM!) ===== */
+/* ========================================= */
+
+/* Importa fontes sofisticadas: uma serifada para títulos, uma sans-serif para corpo */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Define variáveis de cores para facilitar a manutenção e criar uma paleta consistente */
+:root {
+    --primary-color: #2c3e50; /* Um azul escuro/grafite sofisticado */
+    --secondary-color: #ecf0f1; /* Um cinza muito claro, quase branco */
+    --card-background: #fff; /* Branco puro para os cards */
+    --text-color: #34495e; /* Um cinza azulado escuro para texto geral */
+    --subtle-text-color: #7f8c8d; /* Um cinza suave para descrições */
+    --accent-color: #e74c3c; /* Um vermelho vibrante para destaque (preço, botão) */
+    --border-color: #ddd; /* Bordas suaves */
+    --shadow-light: 0 1px 6px rgba(0,0,0,0.08); /* Sombra leve e suave */
+    --shadow-medium: 0 4px 12px rgba(0,0,0,0.12); /* Sombra um pouco mais pronunciada */
+}
+
+/* ========================================= */
+/* ===== ESTILOS GERAIS E BASE (PREMIUM!) ==== */
 /* ========================================= */
 body {
-  font-family: 'Arial', sans-serif; /* Voltando para Arial/sans-serif, fiel ao original */
+  /* Aplica a fonte sans-serif importada para o corpo todo */
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4; /* Fundo cinza claro do original */
-  color: #333; /* Cor de texto principal */
+  background-color: var(--secondary-color); /* Usa a variável de fundo */
+  color: var(--text-color); /* Usa a variável de cor de texto */
   line-height: 1.6;
-  box-sizing: border-box; /* Inclui padding e borda no tamanho do elemento */
+  box-sizing: border-box;
+  scroll-behavior: smooth; /* Adiciona scroll suave para navegação (se for implementada) */
 }
 
 *, *::before, *::after {
-  box-sizing: inherit; /* Garante box-sizing em todos os elementos */
+  box-sizing: inherit;
 }
 
-/* O app-container agora envolve APENAS o conteúdo principal (as seções do cardápio) */
+/* Aplica a fonte serifada para títulos maiores e define a cor */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; /* Negrito para títulos */
+    color: var(--primary-color); /* Usa a variável de cor primária */
+    margin-top: 0;
+}
+
 .app-container {
-  max-width: 1200px; /* Limita a largura do conteúdo principal */
-  margin: 0 auto; /* Centraliza o conteúdo principal */
-  padding: 0 20px; /* Padding nas laterais do conteúdo principal */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  /* Adiciona um pouco de espaço em cima e embaixo do conteúdo principal */
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
-
-/* Se quiser importar uma fonte mais bonita mas simples, pode descomentar e usar no body */
-/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap'); */
-/* body { font-family: 'Open Sans', sans-serif; } */
 
 
 /* ========================================= */
-/* =========== ESTILOS DO CABEÇALHO ========== */
+/* =========== ESTILOS DO CABEÇALHO (REFINADO!) ========== */
 /* ========================================= */
 header {
-  background-color: #333; /* Fundo cinza escuro/preto do original */
-  color: white; /* Texto branco do original */
-  padding: 15px 20px; /* Padding do original */
+  background-color: var(--primary-color); /* Usa a variável de cor primária */
+  color: white;
+  padding: 15px 20px;
   text-align: center;
-  /* Removido max-width e margin auto para ser full width */
-  position: relative; /* Necessário para posicionar o carrinho absoluto */
-  /* Removido box-shadow para ser mais fiel */
-  border-bottom: none; /* Sem borda */
+  position: relative;
+  box-shadow: var(--shadow-light); /* Adiciona uma sombra sutil no cabeçalho */
 }
 
-/* Container para centralizar o conteúdo DENTRO do header */
 .header-content {
-  max-width: 1200px; /* Mesma largura do app-container */
-  margin: 0 auto; /* Centraliza */
-  padding: 0; /* Sem padding extra */
-  position: relative; /* Necessário se o carrinho estiver relativo a ele */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  display: flex; /* Usa flexbox para alinhar o grupo Logo+Título com o Carrinho */
+  justify-content: space-between; /* Distribui espaço */
+  align-items: center; /* Centraliza verticalmente */
+  flex-wrap: wrap; /* Permite quebra de linha em telas menores */
 }
+
+/* Container para agrupar Logo e Título (Flex Column para empilhar) */
+.header-brand {
+    display: flex;
+    flex-direction: column; /* Empilha Logo e Título verticalmente */
+    align-items: center; /* Centraliza Logo e Título horizontalmente */
+    flex-grow: 1; /* Permite que o bloco ocupe espaço */
+    /* Ajusta margem inferior para telas onde o flex-wrap quebra */
+    margin-bottom: 10px;
+}
+/* Remove a margem inferior em telas onde o header-content não quebra */
+@media (min-width: 500px) {
+    .header-brand {
+        margin-bottom: 0;
+    }
+}
+
 
 header h1 {
   margin: 0;
-  color: white; /* Título branco do original */
-  font-size: 2em; /* Tamanho do original */
-  font-weight: bold; /* Manter negrito */
-  letter-spacing: normal; /* Sem espaçamento extra */
+  color: white; /* Título branco no fundo escuro do header */
+  font-family: 'Playfair Display', serif; /* Garante a fonte do título */
+  font-size: 2.2em; /* Tamanho do título ajustado */
+  font-weight: 700;
+  letter-spacing: 0.05em;
+   /* Espaço entre o logo (em cima) e o título */
+   margin-top: 5px;
 }
 
 header img {
-  max-width: 100px; /* Tamanho do logo do original */
+  max-width: 80px; /* Tamanho do logo ajustado */
   height: auto;
-  margin-top: 5px; /* Margem do original */
   vertical-align: middle;
-  /* Talvez arredondar o logo? border-radius: 50%; overflow: hidden; */
+  margin: 0; /* Remove margens padrão */
 }
 
 
 /* ============================================= */
-/* >>> ESTILOS PARA O ÍCONE DO CARRINHO <<< */
+/* >>> ESTILOS PARA O ÍCONE DO CARRINHO (REFINADO!) <<< */
 /* ============================================= */
 .cart-info {
-  /* Mantém a posição absoluta dentro do header */
-  position: absolute;
-  top: 50%; /* Centraliza verticalmente em relação ao header */
-  right: 20px; /* Distância da direita */
-  transform: translateY(-50%); /* Ajusta a centralização vertical */
-  background-color: white; /* Fundo branco */
-  padding: 8px 15px; /* Padding */
-  border-radius: 20px; /* Borda arredondada */
-  border: 1px solid #ccc; /* Borda cinza */
-  font-size: 1.1em; /* Tamanho */
-  color: #333;
+  position: relative; /* Permite posicionamento interno se necessário */
+  background-color: var(--card-background);
+  padding: 8px 15px;
+  border-radius: 25px; /* Borda bem arredondada tipo "pílula" */
+  border: 1px solid var(--border-color);
+  font-size: 1.1em;
+  color: var(--text-color);
   display: flex;
   align-items: center;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+  box-shadow: var(--shadow-light);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 10; /* Garante que fique acima de outros elementos no header */
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+  z-index: 10;
+  /* Adiciona margem para separar do .header-brand em telas largas, remove em telas pequenas */
+   margin-left: 15px;
 }
+/* Em telas pequenas, remove a margem para ajudar a caber */
+@media (max-width: 499px) {
+    .cart-info {
+        margin-left: 0;
+    }
+}
+
 
 .cart-info:hover {
-  transform: translateY(-50%) scale(1.05); /* Efeito subtle scale */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  opacity: 0.9;
+  box-shadow: var(--shadow-medium);
+  transform: none; /* Remove transformação se houver */
 }
 
-/* Se usar emoji (🛒) */
-.cart-info {
-  /* Pode ajustar o tamanho do emoji aqui se necessário */
-  /* font-size: 1.2em; */
+/* Estilo para o ícone do carrinho (se for emoji ou imagem) */
+.cart-info span:first-child {
+    font-size: 1.3em;
+    margin-right: 8px;
+    vertical-align: middle;
 }
-
-/* Se usar imagem para o ícone */
-.cart-info img {
-   width: 25px;
-   height: auto;
-   margin-right: 8px;
-   vertical-align: middle;
-   /* Remova margens e paddings que possam vir de outros estilos de img */
-   margin-top: 0;
-   padding: 0;
-}
+/* Se usar imagem para o ícone, ajuste aqui */
+/* .cart-info img { ... } */
 
 
 .cart-info .cart-count {
-  background-color: #e74c3c; /* Cor de destaque (vermelho, combina com preço) */
+  background-color: var(--accent-color);
   color: white;
   border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 0.8em;
+  padding: 1px 6px;
+  font-size: 0.7em;
   font-weight: bold;
-  margin-left: 8px;
-  min-width: 20px;
+  margin-left: 5px;
+  min-width: 18px;
   text-align: center;
-  line-height: 1;
+  line-height: 1.4;
   display: inline-block;
 }
 
 /* ============================================= */
-/* >>> ESTILOS PARA O FILTRO DROPDOWN <<< */
+/* >>> ESTILOS PARA O FILTRO DROPDOWN (REFINADO!) <<< */
 /* ============================================= */
 .filter-container {
-  background-color: #444; /* Fundo cinza escuro/preto do original da nav */
-  padding: 10px 20px; /* Padding similar ao original da nav */
+  background-color: var(--primary-color);
+  padding: 12px 20px;
   text-align: center;
-  /* Removido max-width e margin auto para ser full width */
-  z-index: 10; /* Garante que fique acima das seções */
-  position: relative; /* Necessário para o dropdown absoluto */
+  z-index: 10;
+  position: relative;
+  box-shadow: var(--shadow-light);
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .filter-dropdown {
   position: relative;
-  display: inline-block; /* Para centralizar o dropdown dentro do container */
-  text-align: left; /* Alinha texto dentro do dropdown */
-  /* Removido margin auto 100% width */
+  display: inline-block;
+  text-align: left;
+  max-width: 1200px;
+  width: 100%;
+}
+.filter-container .filter-dropdown {
+    margin: 0 auto; /* Centraliza o dropdown dentro do container */
 }
 
+
 .filter-button {
-  background-color: transparent; /* Fundo transparente */
-  color: white; /* Texto branco (similar aos links da nav original) */
-  padding: 8px 15px; /* Padding */
-  font-size: 1em; /* Tamanho da fonte */
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 10px 20px;
+  font-size: 1em;
   border: none;
-  border-radius: 5px; /* Bordas suaves */
+  border-radius: 5px;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-weight: normal; /* Normal, como os links originais */
-  box-shadow: none; /* Sem sombra */
-  text-transform: none; /* Texto normal, não uppercase */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-weight: 500;
+  box-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .filter-button:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Fundo transparente leve no hover */
-  color: white;
-  transform: none; /* Sem animação de lift */
-  box-shadow: none;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .filter-button:active {
-   transform: none;
-   box-shadow: none;
-   background-color: rgba(255, 255, 255, 0.2); /* Fundo um pouco mais forte no active */
+   transform: translateY(0);
+   background-color: rgba(255, 255, 255, 0.2);
 }
 
 
 .filter-button .arrow {
-   margin-left: 5px; /* Espaço */
+   margin-left: 8px;
    transition: transform 0.3s ease;
    display: inline-block;
-   font-size: 0.8em; /* Seta menor */
+   font-size: 0.9em;
 }
 
-/* Gira a seta no hover do botão (mais preciso que no container) */
-.filter-button:hover .arrow {
+/* Gira a seta no hover do botão ou quando a lista está visível */
+.filter-dropdown:hover .arrow,
+.filter-list.visible + .filter-button .arrow {
    transform: rotate(180deg);
 }
+
 
 .filter-list {
   list-style-type: none;
   margin: 0;
-  padding: 5px 0; /* Padding */
+  padding: 5px 0;
   position: absolute;
-  top: calc(100% + 5px); /* Espaço abaixo do botão */
-  left: 0; /* Alinha a esquerda com o botão */
-  /* Removido transform translateX */
-  background-color: white;
-  border: 1px solid #ccc;
+  top: calc(100% + 5px);
+  left: 0; /* Alinha à esquerda do container .filter-dropdown */
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
   border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  z-index: 101; /* Z-index alto */
-  min-width: 180px; /* Largura mínima */
+  box-shadow: var(--shadow-medium);
+  z-index: 101;
+  min-width: 200px;
   text-align: left;
-
-  /* Esconde/mostra com display none/block para fidelidade */
-  display: none;
-  /* Transições de opacity/visibility removidas para simplificar */
-  /* pointer-events: none; */ /* Removido se usar display none */
+  opacity: 0; /* Começa invisível */
+  visibility: hidden; /* Escondido por padrão */
+  transform: translateY(10px); /* Começa um pouco pra baixo */
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  pointer-events: none; /* Impede cliques quando invisível */
 }
 
-/* Mostra a lista no hover do CONTAINER (para não sumir fácil) */
-.filter-dropdown:hover .filter-list {
-  display: block;
-  /* pointer-events: auto; */ /* Removido se usar display block */
+/* Mostra a lista quando o container pai .filter-dropdown está com hover ou a classe 'visible' está presente */
+.filter-dropdown:hover .filter-list,
+.filter-list.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto; /* Permite cliques quando visível */
 }
 
 .filter-list li {
@@ -222,174 +276,203 @@ header img {
 .filter-list .filter-option {
   display: block;
   width: 100%;
-  padding: 10px 15px;
+  padding: 10px 20px;
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 1em;
   text-align: left;
   transition: background-color 0.2s ease, color 0.2s ease;
-  color: #555;
+  color: var(--text-color);
 }
 
 .filter-list .filter-option:hover {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .filter-list .filter-option.active {
-  background-color: #eee;
-  font-weight: bold;
-  color: #e74c3c; /* Cor de destaque */
+  background-color: var(--secondary-color);
+  font-weight: 500;
+  color: var(--accent-color);
 }
 
 
 /* ========================================= */
-/* ========= ESTILOS DAS SEÇÕES ============ */
+/* ========= ESTILOS DAS SEÇÕES (REFINADO!) ============ */
 /* ========================================= */
 section {
-  padding: 30px 0; /* Espaço vertical */
-  margin-bottom: 30px; /* Espaço entre seções */
-  /* Removido padding horizontal, pois o app-container já tem */
-  /* Removido border-top, box-shadow */
+  padding: 40px 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border-color);
 }
+
+section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
 
 section h2 {
   text-align: center;
-  font-size: 28px; /* Tamanho do original */
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 25px; /* Espaço */
+  font-size: 2.5em;
+  margin-bottom: 30px;
   position: relative;
-  padding-bottom: 0; /* Sem padding extra */
 }
 
-/* Remove a linha "Diva" que estava antes, para ser mais fiel */
 section h2::after {
-  display: none; /* Esconde a linha */
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+    margin: 10px auto 0;
+    border-radius: 3px;
 }
 
 
 .menu-category {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Centraliza os itens */
-  gap: 25px; /* Espaço do original */
-  padding: 0; /* Remove padding padrão */
-  /* Removido background, padding, border-radius */
+  justify-content: center;
+  gap: 30px;
+  padding: 0;
 }
 
 
 /* ========================================= */
-/* ======= ESTILOS DOS ITENS (FIÉIS!) ====== */
+/* ======= ESTILOS DOS ITENS (PREMIUM!) ====== */
 /* ========================================= */
-article.menu-item { /* O container principal de cada item (MenuItem) */
-  background-color: white;
-  border-radius: 8px; /* Borda do original */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave do original */
+article.menu-item {
+  background-color: var(--card-background);
+  border-radius: 10px;
+  box-shadow: var(--shadow-light);
   overflow: hidden;
-  /* >>> AJUSTE AQUI PARA O GRID <<< */
-  /* Usamos calc para ajustar a largura com base no gap e no número de itens por linha desejado */
-  /* Padrão para 4 itens por linha em telas largas (desktop) */
-  width: calc((100% - 3 * 25px) / 4); /* 4 itens por linha - (N-1)*gap / N */
+  /* Largura será definida nos media queries */
 
-  display: flex; /* Ativa Flexbox para o alinhamento inferior */
-  flex-direction: column; /* Organiza em coluna */
-  justify-content: space-between; /* Distribui espaço verticalmente */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transição suave */
-  text-align: center; /* Centraliza texto */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  cursor: pointer; /* Indica que o item é interativo (para mostrar descrição) */
 }
 
 article.menu-item:hover {
-  transform: translateY(-5px); /* Leve lift */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Sombra um pouco mais visível no hover */
+  transform: translateY(-8px); /* Efeito lift mais pronunciado no hover */
+  box-shadow: var(--shadow-medium); /* Sombra maior no hover */
 }
 
 .menu-item-imagem {
-  width: 100%; /* Ocupa toda a largura do card */
-  height: 180px; /* Altura da imagem do original */
-  object-fit: cover; /* Cobre o espaço sem distorcer */
-  /* Removido border-radius na imagem */
+  width: 100%; /* Ocupa a largura do container pai */
+  height: 220px; /* Altura FIXA da imagem */
+  /* >>> MUDANÇA AQUI: De 'cover' para 'contain' <<< */
+  object-fit: contain; /* Garante que a imagem inteira caiba na área, pode deixar espaço */
+  /* --------------------------------------------- */
+  /* Adiciona border-radius na parte superior da imagem */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+   /* Garante que a imagem não encolhe em layouts flex */
+  flex-shrink: 0;
+   /* Centraliza a imagem dentro do espaço 'contain' */
+  display: block; /* Ajuda a centralizar */
+  margin: 0 auto; /* Centraliza horizontalmente */
 }
 
-.menu-item-info { /* Container das informações de texto */
-  padding: 15px; /* Padding do original */
+.menu-item-info {
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Faz esta div crescer e empurrar o botão */
-  justify-content: flex-start; /* Alinha conteúdo no topo */
+  flex-grow: 1; /* Faz esta div crescer e empurrar o botão para baixo */
+  justify-content: flex-start;
   text-align: center;
+   /* >>> MUDANÇA AQUI: Adiciona altura mínima <<< */
+  min-height: 120px; /* Define uma altura mínima para o bloco de informações */
+   /* --------------------------------------------- */
 }
 
 .menu-item-nome {
-  font-size: 1.2em; /* Tamanho do original */
-  color: #333; /* Cor do original */
-  margin: 0 0 10px 0; /* Margem do original */
-  font-weight: bold; /* Negrito */
+  font-size: 1.3em;
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+  font-weight: 700;
 }
 
+/* ESTILO DA DESCRIÇÃO - ESCONDIDA POR PADRÃO, APARECE NO HOVER */
 .menu-item-descricao {
-  font-size: 0.9em; /* Tamanho do original */
-  color: #666; /* Cor do original */
-  margin: 0 0 10px 0; /* Margem do original */
-  flex-grow: 1; /* Faz a descrição ocupar o espaço extra */
-  line-height: 1.4; /* Espaçamento de linha */
+  font-size: 0.9em;
+  color: var(--subtle-text-color);
+  margin: 0; /* Remove margem inferior padrão */
+  opacity: 0;
+  max-height: 0; /* Altura zero quando escondido */
+  overflow: hidden;
+  padding: 0 5px;
+  transition: opacity 0.3s ease, max-height 0.3s ease, margin-bottom 0.3s ease;
 }
 
-.menu-item-preco.preco { /* Estilo do preço (combinando as classes) */
-  font-size: 1.1em; /* Tamanho do original */
-  font-weight: bold;
-  color: #e74c3c; /* COR VERMELHA DO ORIGINAL! */
-  margin: auto 0 0 0; /* Empurra para baixo dentro da info */
+/* Mostra a descrição e adiciona a margem inferior quando o item inteiro está com hover */
+article.menu-item:hover .menu-item-descricao {
+  opacity: 1;
+  max-height: 200px;
+  margin-bottom: 15px; /* Adiciona espaço abaixo da descrição quando visível */
+}
+
+.menu-item-preco.preco {
+  font-size: 1.2em;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-top: auto;
+  margin-bottom: 0;
   text-align: center;
 }
 
 
 /* =============================================== */
-/* >>> ESTILOS PARA O BOTÃO ADD TO CART (CINZA!) <<< */
+/* >>> ESTILOS PARA O BOTÃO ADD TO CART (DESTAQUE!) <<< */
 /* =============================================== */
 .add-to-cart-btn {
   display: block;
-  width: calc(100% - 30px); /* Considera padding do item */
-  margin: 0 auto 15px auto; /* 0px em cima, auto dos lados (centraliza), 15px embaixo */
-  padding: 10px 15px; /* Padding */
-  background-color: #bdc3c7; /* Cor cinza suave pedida */
-  color: #333; /* Cor do texto escuro */
+  width: calc(100% - 40px);
+  margin: 0 auto 20px auto;
+  padding: 12px 20px;
+  background-color: var(--accent-color);
+  color: white;
   font-size: 1em;
   border: none;
-  border-radius: 5px; /* Bordas suaves */
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease; /* Transição suave */
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
   text-transform: uppercase;
-  font-weight: bold;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Sombra sutil */
+  font-weight: 700;
+  box-shadow: var(--shadow-light);
+  position: relative;
+  z-index: 2;
 }
 
 .add-to-cart-btn:hover {
-  background-color: #95a5a6; /* Cinza mais escuro no hover */
-  transform: translateY(-2px); /* Leve lift */
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
 }
 
 .add-to-cart-btn:active {
-  background-color: #7f8c8d; /* Cinza ainda mais escuro no clique */
+  background-color: #a5342a;
   transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-light);
 }
 
 
 /* =============================================== */
-/* >>> ESTILOS PARA OS DETALHOS DO CARRINHO (MODAL) <<< */
+/* >>> ESTILOS PARA OS DETALHOS DO CARRINHO (MODAL REFINADO) <<< */
 /* =============================================== */
-/* Mantém os estilos de modal para um pop-up funcional, ajustando cores */
-
 .cart-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 2000;
   display: flex;
   justify-content: center;
@@ -398,15 +481,16 @@ article.menu-item:hover {
 }
 
 @keyframes fadeIn {
+  from { opacity: 0; }
   to { opacity: 1; }
 }
 
 .cart-details {
-  background-color: white;
+  background-color: var(--card-background);
   padding: 30px;
-  border-radius: 8px; /* Bordas suaves */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra */
-  max-width: 400px; /* Largura do modal */
+  border-radius: 8px;
+  box-shadow: var(--shadow-medium);
+  max-width: 450px;
   width: 90%;
   position: relative;
   max-height: 80vh;
@@ -416,7 +500,8 @@ article.menu-item:hover {
 }
 
 @keyframes slideUp {
-  to { transform: translateY(0); }
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 
@@ -424,26 +509,26 @@ article.menu-item:hover {
   margin-top: 0;
   margin-bottom: 20px;
   text-align: center;
-  color: #333;
-  font-size: 1.8em;
-  border-bottom: 1px solid #eee;
+  color: var(--primary-color);
+  font-size: 2em;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 10px;
 }
 
 .close-cart-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background-color: transparent;
   border: none;
-  font-size: 1.5em;
+  font-size: 1.8em;
   cursor: pointer;
-  color: #aaa;
+  color: var(--subtle-text-color);
   transition: color 0.2s ease;
 }
 
 .close-cart-btn:hover {
-  color: #333;
+  color: var(--primary-color);
 }
 
 .cart-items-list {
@@ -456,227 +541,267 @@ article.menu-item:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px dashed #ddd;
-  font-size: 1em;
-  color: #555;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 1.1em;
+  color: var(--text-color);
 }
 
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+
 .cart-item span:first-child {
-  font-weight: normal; /* Nome normal */
+  font-weight: 400;
   flex-grow: 1;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .cart-item span:last-child {
   white-space: nowrap;
-  color: #008000; /* Cor do preço */
-  font-weight: bold;
+  color: var(--accent-color);
+  font-weight: 700;
 }
 
 .cart-total {
   display: flex;
   justify-content: space-between;
-  padding-top: 15px;
-  font-size: 1.2em;
-  border-top: 1px solid #ddd; /* Linha sólida suave */
-  font-weight: bold;
-  color: #333;
+  padding-top: 20px;
+  font-size: 1.3em;
+  border-top: 1px solid var(--border-color);
+  font-weight: 700;
+  color: var(--primary-color);
 }
 
 .cart-total span {
-   color: #008000; /* Cor do valor total */
+   color: var(--accent-color);
 }
 
 /* Estilo para "Seu carrinho está vazio" */
 .cart-details p {
   text-align: center;
-  color: #777;
+  color: var(--subtle-text-color);
   font-size: 1.1em;
+  padding: 20px 0;
 }
 
 
 /* ========================================= */
-/* ======= ESTILOS DO RODAPÉ (FIÉIS!) ====== */
+/* ======= ESTILOS DO RODAPÉ (PREMIUM!) ====== */
 /* ========================================= */
 footer {
-  background-color: #333; /* Fundo cinza escuro/preto do original */
-  color: white; /* Texto branco do original */
+  background-color: var(--primary-color);
+  color: white;
   text-align: center;
-  padding: 20px; /* Padding do original */
-  margin-top: 30px; /* Margem do original */
+  padding: 25px;
+  margin-top: 40px;
   font-size: 0.9em;
-  /* Removido max-width e margin auto para ser full width */
 }
 
 footer p {
   margin: 0;
-  color: white; /* Texto branco do original */
+  color: rgba(255,255,255,0.8);
 }
 
 
 /* ========================================= */
-/* ======= ESTILOS DE RESPONSIVIDADE ======= */
+/* ======= ESTILOS DE RESPONSIVIDADE (REFINADOS!) ======= */
 /* ========================================= */
 
-/* Telas Médias (Tablets) */
-@media (max-width: 1199px) { /* Ajuste o breakpoint para 3 itens antes */
+/* Breakpoint para 3 colunas */
+@media (max-width: 1199px) {
    .app-container {
       padding: 0 15px;
   }
 
-   /* >>> AJUSTE AQUI PARA 3 ITENS POR LINHA <<< */
-  article.menu-item {
+   .menu-category {
+      gap: 25px; /* Espaço original */
+  }
+   article.menu-item {
       width: calc((100% - 2 * 25px) / 3); /* 3 itens por linha */
   }
 
   header { padding: 15px; }
-  .header-content { padding: 0 15px; } /* Padding interno para o conteúdo centralizado */
-  header h1 { font-size: 1.8em; }
-  header img { max-width: 80px; }
+  .header-content { padding: 0 15px; }
+  .header-brand h1 { font-size: 2em; }
+  .header-brand img { max-width: 70px; }
 
-  .cart-info { top: 15px; right: 15px; padding: 6px 12px; font-size: 1em; }
-  .cart-info .cart-count { padding: 2px 5px; font-size: 0.7em; min-width: 18px; }
+  .cart-info { padding: 7px 14px; font-size: 1em; border-radius: 22px; }
+  .cart-info span:first-child { font-size: 1.2em; margin-right: 6px;}
+  .cart-info .cart-count { padding: 1px 5px; font-size: 0.65em; min-width: 17px; margin-left: 4px;}
 
-  .filter-container { padding: 8px 15px; }
-  .filter-button { padding: 6px 12px; font-size: 0.9em; }
-  .filter-list { min-width: 160px; top: calc(100% + 4px); }
-  .filter-list .filter-option { padding: 8px 12px; font-size: 0.9em; }
-
-
-  section { padding: 20px 0; margin-bottom: 20px;}
-  section h2 { font-size: 26px; margin-bottom: 20px;}
+  .filter-container { padding: 10px 15px; }
+  .filter-button { padding: 8px 18px; font-size: 0.9em; }
+  .filter-list { min-width: 180px; top: calc(100% + 4px); }
+  .filter-list .filter-option { padding: 9px 18px; font-size: 0.9em; }
 
 
-  .menu-category { gap: 20px; } /* Ajusta gap para 3 itens */
-  article.menu-item { border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-  article.menu-item:hover { transform: translateY(-3px); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
-  article.menu-item img { height: 160px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
-  article.menu-item-info { padding: 12px; }
-  .menu-item-nome { font-size: 1.1em; margin-bottom: 8px; }
-  .menu-item-descricao { font-size: 0.85em; margin-bottom: 8px;}
-  .menu-item-preco.preco { font-size: 1em; }
-  .add-to-cart-btn { width: calc(100% - 24px); margin: 0 auto 12px auto; padding: 8px; font-size: 0.9em; border-radius: 4px; }
+  section { padding: 25px 0; margin-bottom: 25px;}
+  section h2 { font-size: 2.2em; margin-bottom: 25px;}
+  section h2::after { width: 50px; height: 2px; margin-top: 8px;}
+
+   article.menu-item { border-radius: 8px; }
+   article.menu-item img { height: 200px; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+  article.menu-item-info { padding: 18px; }
+   article.menu-item-info { min-height: 110px;} /* Ajuste min-height para tablets */
+  .menu-item-nome { font-size: 1.2em; margin-bottom: 6px; }
+  .menu-item-descricao { font-size: 0.88em; } /* Removido margin-bottom, controlado no hover */
+  article.menu-item:hover .menu-item-descricao { margin-bottom: 12px;} /* Ajuste a margem no hover */
+
+  .menu-item-preco.preco { font-size: 1.1em; }
+  .add-to-cart-btn { width: calc(100% - 36px); margin: 0 auto 18px auto; padding: 10px 18px; font-size: 0.95em; border-radius: 4px; }
 
 
-  .cart-details { padding: 25px; max-width: 90%; border-radius: 6px; }
-  .cart-details h3 { font-size: 1.6em; margin-bottom: 18px; }
-  .close-cart-btn { top: 8px; right: 8px; width: 28px; height: 28px; font-size: 1.3em; }
-  .cart-item { font-size: 0.95em; padding: 8px 0; }
-  .cart-total { font-size: 1.1em; padding-top: 12px; }
+  .cart-details { padding: 25px; max-width: 400px; }
+  .cart-details h3 { font-size: 1.8em; margin-bottom: 18px; }
+  .close-cart-btn { top: 12px; right: 12px; font-size: 1.6em; }
+  .cart-item { font-size: 1em; padding: 10px 0; }
+  .cart-total { font-size: 1.2em; padding-top: 18px; }
 
-  footer { padding: 15px; margin-top: 20px; font-size: 0.8em; }
+  footer { padding: 20px; margin-top: 30px; font-size: 0.85em; }
 }
 
-/* Telas Pequenas (Celulares) */
-@media (max-width: 767px) { /* Ajuste o breakpoint para 2 itens antes */
+/* Breakpoint para 2 colunas */
+@media (max-width: 767px) {
    .app-container {
       padding: 0 10px;
   }
 
-   /* >>> AJUSTE AQUI PARA 2 ITENS POR LINHA <<< */
+   .menu-category {
+       gap: 20px; /* Espaço ajustado */
+   }
   article.menu-item {
       width: calc((100% - 1 * 20px) / 2); /* 2 itens por linha */
-       gap: 15px; /* Ajusta gap para 2 itens */
+       border-radius: 6px;
+       box-shadow: var(--shadow-light);
   }
-   .menu-category { gap: 20px; }
+   article.menu-item:hover {
+       box-shadow: var(--shadow-medium);
+       transform: translateY(-5px); /* Leve lift para 2 itens */
+   }
 
 
   header { padding: 10px; }
    .header-content { padding: 0 10px; }
-  header h1 { font-size: 1.6em; margin-bottom: 5px;}
-  header img { max-width: 70px; margin-top: 5px;}
-
-  .cart-info { top: 10px; right: 10px; padding: 5px 10px; font-size: 0.9em; }
-  .cart-info .cart-count { padding: 1px 4px; font-size: 0.6em; min-width: 16px; }
-
-  .filter-container { padding: 6px 10px; }
-  .filter-button { padding: 5px 10px; font-size: 0.8em; }
-  .filter-list { min-width: 140px; top: calc(100% + 3px); }
-  .filter-list .filter-option { padding: 8px 10px; font-size: 0.8em; }
+  .header-brand h1 { font-size: 1.8em; margin-bottom: 0; }
+  .header-brand img { max-width: 60px; margin-right: 10px; }
+   .cart-info { margin-left: 10px; }
 
 
-  section { padding: 15px 0; margin-bottom: 15px;}
-  section h2 { font-size: 22px; margin-bottom: 15px;}
+  .cart-info { top: 10px; right: 10px; padding: 6px 12px; font-size: 0.95em; border-radius: 20px; }
+  .cart-info span:first-child { font-size: 1.1em; margin-right: 5px;}
+  .cart-info .cart-count { padding: 0px 4px; font-size: 0.6em; min-width: 16px; margin-left: 3px;}
 
 
-  /* .menu-category { gap: 15px; } */ /* Movido gap para article.menu-item */
-  article.menu-item { border-radius: 6px; box-shadow: 0 2px 3px rgba(0,0,0,0.1); } /* 1 item por linha */
-   article.menu-item img { height: 150px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
-  article.menu-item-info { padding: 10px; }
-  .menu-item-nome { font-size: 1.1em; margin-bottom: 4px;}
-  .menu-item-descricao { font-size: 0.8em; margin-bottom: 6px;}
+  .filter-container { padding: 8px 10px; }
+  .filter-button { padding: 7px 15px; font-size: 0.9em; }
+  .filter-list { min-width: 160px; top: calc(100% + 3px); }
+  .filter-list .filter-option { padding: 8px 15px; font-size: 0.9em; }
+
+
+  section { padding: 25px 0; margin-bottom: 25px;}
+  section h2 { font-size: 2em; margin-bottom: 20px;}
+  section h2::after { width: 40px; height: 2px; margin-top: 6px;}
+
+
+   article.menu-item img { height: 180px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
+  article.menu-item-info { padding: 15px; }
+   article.menu-item-info { min-height: 100px;} /* Ajuste min-height para celulares maiores */
+  .menu-item-nome { font-size: 1.1em; margin-bottom: 5px;}
+  .menu-item-descricao { font-size: 0.85em; } /* Removido margin-bottom */
+   article.menu-item:hover .menu-item-descricao { margin-bottom: 10px;} /* Ajuste a margem no hover */
+
   .menu-item-preco.preco { font-size: 1em; }
-  .add-to-cart-btn { width: calc(100% - 20px); margin: 0 auto 10px auto; padding: 6px; font-size: 0.85em; border-radius: 4px; }
+  .add-to-cart-btn { width: calc(100% - 30px); margin: 0 auto 15px auto; padding: 9px 15px; font-size: 0.9em; border-radius: 4px; }
 
 
-  .cart-details { padding: 20px; width: 95%; max-height: 90vh; border-radius: 6px; }
-   .cart-details h3 { font-size: 1.4em; margin-bottom: 15px; }
-   .close-cart-btn { top: 8px; right: 8px; width: 25px; height: 25px; font-size: 1.2em; }
-   .cart-item { font-size: 0.85em; padding: 6px 0; }
-   .cart-total { font-size: 1em; padding-top: 10px;}
+  .cart-details { padding: 20px; width: 90%; max-width: 350px; }
+   .cart-details h3 { font-size: 1.6em; margin-bottom: 15px; }
+   .close-cart-btn { top: 10px; right: 10px; font-size: 1.5em; }
+   .cart-item { font-size: 0.9em; padding: 8px 0; }
+   .cart-total { font-size: 1.1em; padding-top: 15px;}
 
 
-  footer { padding: 15px 10px; margin-top: 20px; font-size: 0.75em; }
+  footer { padding: 18px; margin-top: 25px; font-size: 0.8em; }
 }
 
-/* Telas muito pequenas (Celulares) */
-@media (max-width: 479px) { /* Ajuste o breakpoint para 1 item */
+/* Breakpoint para 1 coluna (Celulares) */
+@media (max-width: 499px) { /* Ajustei o breakpoint para 1 coluna um pouco mais alto */
    .app-container {
-      padding: 0 10px; /* Padding */
+      padding: 0 10px; /* Mantém 10px de padding lateral */
   }
-   /* >>> AJUSTE AQUI PARA 1 ITEM POR LINHA <<< */
+
+   .menu-category {
+       gap: 15px; /* Espaço entre itens em coluna única */
+       /* Não precisa de justify-content: center; aqui se o item ocupa 100% */
+   }
   article.menu-item {
-      width: calc(100% - 20px); /* 1 item por linha - considera 10px padding em cada lado do app-container */
-      margin: 0 auto; /* Centraliza se a largura não for 100% */
+      /* Ocupa 100% da largura do pai (.menu-category), que já tem o padding do .app-container indiretamente */
+      width: 100%; /* 1 item por linha */
+      margin: 0 auto 15px auto; /* Centraliza e adiciona margem inferior */
+      border-radius: 6px;
+      box-shadow: var(--shadow-light);
   }
-  /* Ajusta gap entre os itens quando estão em uma única coluna */
-   .menu-category { gap: 15px; }
+   article.menu-item:hover {
+        box-shadow: var(--shadow-medium);
+        transform: translateY(-5px); /* Leve lift */
+    }
 
 
-   header { padding: 10px; }
-    .header-content { padding: 0 10px; }
-   header h1 { font-size: 1.6em; margin-bottom: 5px;}
-   header img { max-width: 70px; margin-top: 5px;}
+   header { padding: 8px; }
+    .header-content { padding: 0 8px; }
+   .header-brand h1 { font-size: 1.5em; margin-bottom: 0; }
+   .header-brand img { max-width: 50px; margin-right: 8px; }
 
-   .cart-info { top: 8px; right: 8px; padding: 5px 10px; font-size: 0.9em; }
-   .cart-info .cart-count { padding: 1px 4px; font-size: 0.6em; min-width: 16px; }
+   .cart-info { right: 8px; padding: 5px 10px; font-size: 0.9em; border-radius: 18px; }
+   .cart-info span:first-child { font-size: 1em; margin-right: 4px;}
+   .cart-info .cart-count { padding: 0px 3px; font-size: 0.55em; min-width: 15px; margin-left: 2px;}
 
-   .filter-container { padding: 6px 10px; }
-   .filter-button { padding: 5px 10px; font-size: 0.8em; }
+
+   .filter-container { padding: 6px 8px; }
+   .filter-button { padding: 6px 12px; font-size: 0.85em; }
    .filter-list { min-width: 140px; top: calc(100% + 3px); }
-   .filter-list .filter-option { padding: 8px 10px; font-size: 0.8em; }
+   .filter-list .filter-option { padding: 7px 12px; font-size: 0.85em; }
 
 
-   section { padding: 15px 0; margin-bottom: 15px;}
-   section h2 { font-size: 22px; margin-bottom: 15px;}
+   section { padding: 20px 0; margin-bottom: 20px;}
+   section h2 { font-size: 1.8em; margin-bottom: 15px;}
+    section h2::after { width: 30px; height: 2px; margin-top: 5px;}
 
 
-   article.menu-item { border-radius: 6px; box-shadow: 0 2px 3px rgba(0,0,0,0.1); }
-    article.menu-item img { height: 150px; border-top-left-radius: 6px; border-top-right-radius: 6px; }
-   article.menu-item-info { padding: 10px; }
-   .menu-item-nome { font-size: 1.1em; margin-bottom: 4px;}
-   .menu-item-descricao { font-size: 0.8em; margin-bottom: 6px;}
-   .menu-item-preco.preco { font-size: 1em; }
-   .add-to-cart-btn { width: calc(100% - 20px); margin: 0 auto 10px auto; padding: 6px; font-size: 0.85em; border-radius: 4px; }
+    article.menu-item img { height: 160px; }
+   article.menu-item-info { padding: 12px; }
+    article.menu-item-info { min-height: 90px;} /* Ajuste min-height para celulares menores */
+   .menu-item-nome { font-size: 1em; margin-bottom: 4px;}
+   .menu-item-descricao { font-size: 0.8em; } /* Removido margin-bottom */
+    article.menu-item:hover .menu-item-descricao { margin-bottom: 8px;} /* Ajuste a margem no hover */
+
+   .menu-item-preco.preco { font-size: 0.95em; }
+   .add-to-cart-btn { width: calc(100% - 24px); margin: 0 auto 12px auto; padding: 8px 12px; font-size: 0.85em; border-radius: 4px; }
 
 
-   .cart-details { padding: 20px; width: 95%; max-height: 90vh; border-radius: 6px; }
-    .cart-details h3 { font-size: 1.4em; margin-bottom: 15px; }
-    .close-cart-btn { top: 8px; right: 8px; width: 25px; height: 25px; font-size: 1.2em; }
+   .cart-details { padding: 15px; width: 95%; max-width: 300px; }
+    .cart-details h3 { font-size: 1.4em; margin-bottom: 12px; }
+    .close-cart-btn { top: 8px; right: 8px; font-size: 1.3em; }
     .cart-item { font-size: 0.85em; padding: 6px 0; }
-    .cart-total { font-size: 1em; padding-top: 10px;}
+    .cart-total { font-size: 1em; padding-top: 12px;}
 
 
-   footer { padding: 15px 10px; margin-top: 20px; font-size: 0.75em; }
+   footer { padding: 15px; margin-top: 20px; font-size: 0.75em; }
 }
 
 
 /* ========================================= */
 /* ======= ESTILOS DE ACESSIBILIDADE ======= */
 /* ========================================= */
-button:focus, a:focus {
-  outline: 2px solid #e74c3c; /* Contorno com cor de destaque */
-  outline-offset: 3px; /* Espaço entre o elemento e o contorno */
-  border-radius: 3px; /* Borda sutil para elementos com borda */
+/* Mantém o foco visual para acessibilidade */
+button:focus-visible, a:focus-visible, .filter-button:focus-visible, .filter-option:focus-visible {
+  outline: 3px solid var(--accent-color); /* Usa a cor de destaque */
+  outline-offset: 4px; /* Espaço maior */
+  border-radius: 4px;
+}
+/* Remove o outline padrão em alguns elementos se focus-visible for suportado */
+button:focus:not(:focus-visible), a:focus:not(:focus-visible) {
+    outline: none;
 }
