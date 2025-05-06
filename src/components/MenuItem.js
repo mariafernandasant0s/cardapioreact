@@ -1,3 +1,5 @@
+// src/components/MenuItem.js
+
 import React from 'react';
 // Importa o CSS. O '../' significa "suba um nível de pasta".
 // De src/components/MenuItem.js, '../' leva para src/
@@ -22,7 +24,14 @@ function MenuItem(props) {
 
       {/* Imagem do item */}
       {/* A classe menu-item-imagem no CSS cuida do tamanho, object-fit e border-radius */}
-      <img src={imagemUrl} alt={`Imagem de ${nome}`} className="menu-item-imagem" /> {/* Alt mais descritivo para acessibilidade */}
+      <img
+        src={imagemUrl}
+        alt={`Imagem de ${nome}`}
+        className="menu-item-imagem"
+        loading="lazy"  // <<< ALTERAÇÃO PRINCIPAL AQUI!
+        width="300"     // Boa prática: Largura esperada. Ajuste se o seu layout principal tiver outra largura para os cards.
+        height="220"    // Boa prática: Altura base da imagem conforme seu CSS.
+      /> {/* Alt mais descritivo para acessibilidade */}
 
       {/* Div para as informações de texto (nome, descrição, preço) */}
       {/* Esta div usa flex-grow para empurrar o botão para baixo */}
@@ -45,7 +54,6 @@ function MenuItem(props) {
       <button
          className="add-to-cart-btn"
          onClick={onAddToCart} // Chama a função addToCart passada do componente pai (App.js)
-         // REMOVIDO O ATRIBUTO style={} QUE TINHA AQUI!
       >
          Adicionar ao carrinho
       </button>
