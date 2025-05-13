@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcardapio=self.webpackChunkcardapio||[]).push([[511],{511:(e,n,r)=>{r.r(n),r.d(n,{default:()=>s});r(43);var a=r(579);const s=function(){return(0,a.jsxs)("div",{className:"extra-info",children:[(0,a.jsx)("h3",{children:"Hor\xe1rio de Funcionamento"}),(0,a.jsx)("p",{children:"Segunda a Sexta: 11:00 - 22:00"}),(0,a.jsx)("p",{children:"S\xe1bados e Domingos: 12:00 - 23:00"}),(0,a.jsx)("h3",{children:"Endere\xe7o"}),(0,a.jsx)("p",{children:"Rua XPTO, 123 - Centro"})]})}}}]);
+//# sourceMappingURL=511.2dbf60a3.chunk.js.map
