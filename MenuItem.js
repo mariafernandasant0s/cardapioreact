@@ -1,9 +1,8 @@
 // src/components/MenuItem.js
 import React from 'react';
-import '../App.css'; // Certifique-se que este CSS não está sobrescrevendo as dimensões de forma a causar CLS
+import '../App.css';
 
 function MenuItem(props) {
-  // As props que você está usando: nome, descricao, preco, imagemUrl, onAddToCart
   const { nome, descricao, preco, imagemUrl, onAddToCart } = props;
   const precoNumerico = parseFloat(preco);
 
@@ -11,11 +10,10 @@ function MenuItem(props) {
     <article className="menu-item">
       <img
         src={imagemUrl}
-        alt={`Foto de ${nome}${descricao ? `: ${descricao.substring(0, 50)}...` : ''}`} // ALT TEXT MELHORADO
+        alt={`Imagem de ${nome}`}
         className="menu-item-imagem"
-        loading="lazy" // SUGIRO RECOLOCAR (se não houver motivo para remover)
-        width="300"  // SUBSTITUA PELO VALOR CORRETO APÓS INSPECIONAR
-        height="200" // SUBSTITUA PELO VALOR CORRETO APÓS INSPECIONAR
+        width="400"
+        height="293"
       />
 
       <div className="menu-item-info">
@@ -27,11 +25,10 @@ function MenuItem(props) {
       </div>
 
       <button
-        className="add-to-cart-btn"
-        onClick={onAddToCart}
-        aria-label={`Adicionar ${nome} ao carrinho`} // Adicionei um aria-label para melhor acessibilidade do botão
+         className="add-to-cart-btn"
+         onClick={onAddToCart}
       >
-        Adicionar ao carrinho
+         Adicionar ao carrinho
       </button>
     </article>
   );
