@@ -12,9 +12,8 @@ function MenuItem(props) {
         src={imagemUrl}
         alt={`Imagem de ${nome}`}
         className="menu-item-imagem"
-        // loading="lazy" // MANTIDO REMOVIDO
-        width="400"    // ATUALIZADO para a largura da sua imagem física
-        height="293"   // ATUALIZADO para a altura proporcional (AJUSTE SE NECESSÁRIO)
+        width="400"
+        height="293"
       />
 
       <div className="menu-item-info">

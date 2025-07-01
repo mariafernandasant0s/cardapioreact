@@ -66,15 +66,12 @@ function App() {
         <div className="header-content">
           <div className="header-brand">
             <img
-              // src/App.js
-              // ...
-
-              src="/images/logo.webp" // OU "/images/logo.png" dependendo do que você salvou
+              src="/images/logo.webp"
               alt="Logo do Restaurante XPTO"
-              width="160" // Exatamente como no Squoosh
-              height="91" // Exatamente como no Squoosh
+              width="160"
+              height="91"
             />
-            // <h1>Restaurante XPTO</h1>
+            {/* A linha com o h1 que causava o erro foi removida daqui */}
           </div>
           <div
             className="cart-info"
@@ -127,8 +124,7 @@ function App() {
       </div>
 
       <div className="app-container">
-        {Object.keys(cardapioCategorizado).map((categoryId, sectionIndex) => {
-          // Adicionado sectionIndex
+        {Object.keys(cardapioCategorizado).map((categoryId) => {
           const isSectionVisible =
             selectedCategory === "all" || selectedCategory === categoryId;
 
@@ -146,27 +142,19 @@ function App() {
                 {categoryTitles[categoryId] || categoryId.replace("-", " ")}
               </h2>
               <div className="menu-category">
-                {cardapioCategorizado[categoryId].map((item, itemIndex) => {
-                  // Adicionado itemIndex
-                  // Lógica para identificar o primeiro item visível como candidato LCP
-                  // Este é um exemplo simples, pode precisar de ajuste mais fino
-                  // const isFirstVisibleItem = sectionIndex === 0 && itemIndex === 0 && (selectedCategory === 'all' || selectedCategory === Object.keys(cardapioCategorizado)[0]);
-
-                  return (
-                    <MenuItem
-                      key={item.id}
-                      id={item.id}
-                      nome={item.nome}
-                      descricao={item.descricao}
-                      preco={parseFloat(item.preco)}
-                      imagemUrl={item.imagemUrl}
-                      onAddToCart={() =>
-                        addToCart({ ...item, preco: parseFloat(item.preco) })
-                      }
-                      // isPriority={isFirstVisibleItem} // Descomente se implementar a lógica de prioridade
-                    />
-                  );
-                })}
+                {cardapioCategorizado[categoryId].map((item) => (
+                  <MenuItem
+                    key={item.id}
+                    id={item.id}
+                    nome={item.nome}
+                    descricao={item.descricao}
+                    preco={parseFloat(item.preco)}
+                    imagemUrl={item.imagemUrl}
+                    onAddToCart={() =>
+                      addToCart({ ...item, preco: parseFloat(item.preco) })
+                    }
+                  />
+                ))}
               </div>
             </section>
           );
